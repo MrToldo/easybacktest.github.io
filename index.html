@@ -29,8 +29,7 @@
         </tr>
       </table>
     </div>
-    <br>
-    <div id="statistiche">a
+    <div id="statistiche">
       <table>
         <thead>
           <tr>
@@ -48,154 +47,125 @@
         </tbody>
       </table>
     </div>
+    <div id="divbutton">
+      <button id="buttonbe" onclick="createRow('BE')">BE</button>
+      <button id="buttontp" onclick="createRow('TP')">TP</button>
+      <button id="buttonsl" onclick="createRow('SL')">SL</button>
+      <button id="buttonclear" onclick="createRow('Clear')">Clear</button>
+    </div>
+    <div id="datatable">
+      <table>
+        <thead>  
+          <tr>
+            <th>ID</th>
+            <th>Trade</th>
+            <th>Pair</th>
+            <th>R:R</th>
+            <th>R:R tot</th>
+            <th>Profit</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+    </div>
+    <script>
+      let rrTotal = 0;
+      let balance = 0;
+      let tpCount = 0;
+      let slCount = 0;
+      let tradeID = 1;
+      let firstrow = true;
+      function createRow(tradeType) {
+        const tableBody = document.getElementById("tableBody");
+        const rrInput = parseFloat(document.getElementById("rr").value);
+        const pairInput = document.getElementById("pair").value;
+        const xTradeInput = parseFloat(document.getElementById("xTrade").value);
+        const initialCapitalInput = parseFloat(document.getElementById("initialCapital").value);
+        const newRow = document.createElement("tr");
+        const idCell = document.createElement("td");
+        idCell.textContent = tradeID;
+        newRow.appendChild(idCell);
+        tradeID++;
+        if (firstrow == true){
+          balance = initialCapitalInput;
+          firstrow = false;
+        }
+        if (tradeType === "TP") {
+          tpCount++;
+        } else if (tradeType === "SL") {
+          slCount++;
+        } 
+        const tradeCell = document.createElement("td");
+        tradeCell.textContent = tradeType;
+        if (tradeType === "TP") {
+          tradeCell.style.fontWeight = "bold";
+          tradeCell.style.color = "#009879";
+        } else if (tradeType === "SL"){
+          tradeCell.style.fontWeight = "bold";
+          tradeCell.style.color = "#f0594e"; 
+        } else {
+          tradeCell.style.fontWeight = "bold";
+          tradeCell.style.color = "black";
+        }
+        newRow.appendChild(tradeCell);
+        const pairCell = document.createElement("td");
+        pairCell.textContent = pairInput;
+        newRow.appendChild(pairCell);
+        const rrCell = document.createElement("td");
+        rrCell.textContent = rrInput.toFixed(2);
+        newRow.appendChild(rrCell);
+        rrTotal += rrInput;
+        const rrTotalCell = document.createElement("td");
+        rrTotalCell.textContent = rrTotal.toFixed(2);
+        newRow.appendChild(rrTotalCell);
+        const profit = rrInput * xTradeInput;
+        const profitCell = document.createElement("td");
+        profitCell.textContent = profit.toFixed(2);
+        newRow.appendChild(profitCell);
+        balance += profit;
+        const balanceCell = document.createElement("td");
+        balanceCell.textContent = balance.toFixed(2);
+        if (balance >= initialCapitalInput) {
+          balanceCell.style.fontWeight = "bold";
+          balanceCell.style.color = "#009879";
+        } else {
+          balanceCell.style.fontWeight = "bold";
+          balanceCell.style.color = "#f0594e";
+        }
+        newRow.appendChild(balanceCell);
+        updateStatisticsTable();
+        tableBody.appendChild(newRow);
+      }
+
+      function updateStatisticsTable() {
+        const statisticsTableBody = document.getElementById("statisticsTableBody");
+        const tpRateCell = document.createElement("td");
+        tpRateCell.textContent = ((tpCount / (tpCount + slCount)) * 100).toFixed(0) + "%";
+        const slRateCell = document.createElement("td");
+        slRateCell.textContent = ((slCount / (tpCount + slCount)) * 100).toFixed(0) + "%";
+        const accountChangePercentage = ((balance - parseFloat(document.getElementById("initialCapital").value)) / parseFloat(document.getElementById("initialCapital").value)) * 100;
+        const accountChangeCell = document.createElement("td");
+        accountChangeCell.textContent = accountChangePercentage.toFixed(1) + "%";
+        if (accountChangePercentage >= 0) {
+          accountChangeCell.style.fontWeight = "bold";
+          accountChangeCell.style.color = "#009879";
+          accountChangeCell.textContent = "+" + accountChangeCell.textContent;
+        } else {
+          accountChangeCell.style.fontWeight = "bold";
+          accountChangeCell.style.color = "#f0594e"; 
+        }
+        while (statisticsTableBody.firstChild) {
+          statisticsTableBody.removeChild(statisticsTableBody.firstChild);
+        }
+          const newRow = document.createElement("tr");
+          newRow.appendChild(tpRateCell);
+          newRow.appendChild(slRateCell);
+          newRow.appendChild(accountChangeCell);
+          statisticsTableBody.appendChild(newRow);
+      }
+    </script>
   </div>
-  <br>
-  <div id="divbutton">
-    <button id="buttonbe" onclick="createRow('BE')">BE</button>
-    <button id="buttontp" onclick="createRow('TP')">TP</button>
-    <button id="buttonsl" onclick="createRow('SL')">SL</button>
-    <button id="buttonclear" onclick="createRow('Clear')">Clear</button>
-  </div>
-  <br>
-  <div id="table">
-    <table>
-      <thead>  
-        <tr>
-          <th>ID</th>
-          <th>TRADE</th>
-          <th>PAIR</th>
-          <th>R:R</th>
-          <th>R:R TOT</th>
-          <th>PROFIT</th>
-          <th>BILANCIO</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody">
-      </tbody>
-    </table>
-  </div>
-  <br>
-  <script>
-    let rrTotal = 0;
-    let balance = 0;
-    let tpCount = 0;
-    let slCount = 0;
-    let tradeID = 1;
-    let firstrow = true;
-
-    function createRow(tradeType) {
-      const tableBody = document.getElementById("tableBody");
-      const rrInput = parseFloat(document.getElementById("rr").value);
-      const pairInput = document.getElementById("pair").value;
-      const xTradeInput = parseFloat(document.getElementById("xTrade").value);
-      const initialCapitalInput = parseFloat(document.getElementById("initialCapital").value);
-    
-      const newRow = document.createElement("tr");
-      const idCell = document.createElement("td");
-      idCell.textContent = tradeID;
-      newRow.appendChild(idCell);
-
-      tradeID++;
-
-      if (firstrow == true){
-        balance = initialCapitalInput;
-        firstrow = false;
-      }
-
-      if (tradeType === "TP") {
-        tpCount++;
-      } else if (tradeType === "SL") {
-        slCount++;
-      } 
-
-      const tradeCell = document.createElement("td");
-      tradeCell.textContent = tradeType;
-
-      if (tradeType === "TP") {
-        tradeCell.style.fontWeight = "bold";
-        tradeCell.style.color = "#009879";
-      } else if (tradeType === "SL"){
-        tradeCell.style.fontWeight = "bold";
-        tradeCell.style.color = "#f0594e"; 
-      } else {
-        tradeCell.style.fontWeight = "bold";
-        tradeCell.style.color = "black";
-      }
-
-      newRow.appendChild(tradeCell);
-
-      const pairCell = document.createElement("td");
-      pairCell.textContent = pairInput;
-      newRow.appendChild(pairCell);
-
-      const rrCell = document.createElement("td");
-      rrCell.textContent = rrInput.toFixed(2);
-      newRow.appendChild(rrCell);
-
-      rrTotal += rrInput;
-      const rrTotalCell = document.createElement("td");
-      rrTotalCell.textContent = rrTotal.toFixed(2);
-      newRow.appendChild(rrTotalCell);
-
-      const profit = rrInput * xTradeInput;
-      const profitCell = document.createElement("td");
-      profitCell.textContent = profit.toFixed(2);
-      newRow.appendChild(profitCell);
-
-      balance += profit;
-    
-      const balanceCell = document.createElement("td");
-      balanceCell.textContent = balance.toFixed(2);
-
-      if (balance >= initialCapitalInput) {
-        balanceCell.style.fontWeight = "bold";
-        balanceCell.style.color = "#009879";
-      } else {
-        balanceCell.style.fontWeight = "bold";
-        balanceCell.style.color = "#f0594e";
-      }
-
-      newRow.appendChild(balanceCell);
-    
-      updateStatisticsTable();
-
-      tableBody.appendChild(newRow);
-    }
-
-    function updateStatisticsTable() {
-      const statisticsTableBody = document.getElementById("statisticsTableBody");
-
-      const tpRateCell = document.createElement("td");
-      tpRateCell.textContent = ((tpCount / (tpCount + slCount)) * 100).toFixed(0) + "%";
-
-      const slRateCell = document.createElement("td");
-      slRateCell.textContent = ((slCount / (tpCount + slCount)) * 100).toFixed(0) + "%";
-
-      const accountChangePercentage = ((balance - parseFloat(document.getElementById("initialCapital").value)) / parseFloat(document.getElementById("initialCapital").value)) * 100;
-      const accountChangeCell = document.createElement("td");
-      accountChangeCell.textContent = accountChangePercentage.toFixed(1) + "%";
-
-      if (accountChangePercentage >= 0) {
-        accountChangeCell.style.fontWeight = "bold";
-        accountChangeCell.style.color = "#009879";
-        accountChangeCell.textContent = "+" + accountChangeCell.textContent;
-      } else {
-        accountChangeCell.style.fontWeight = "bold";
-        accountChangeCell.style.color = "#f0594e"; 
-      }
-
-      while (statisticsTableBody.firstChild) {
-        statisticsTableBody.removeChild(statisticsTableBody.firstChild);
-      }
-
-      const newRow = document.createElement("tr");
-      newRow.appendChild(tpRateCell);
-      newRow.appendChild(slRateCell);
-      newRow.appendChild(accountChangeCell);
-
-      statisticsTableBody.appendChild(newRow);
-    }
-  </script>
-</div>
 </body>
 </html>
