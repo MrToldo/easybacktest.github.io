@@ -3,134 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet" type="text/css">
 <title>Backtest-2023</title>
-<style>
-    *{
-    font-family: calibri;
-    }
-
-    body {
-        background-color: #7bb4f0;
-    }
-
-    input {
-        width: 286px;
-        background-color: #fffdfd;
-        border: none;
-    }
-
-    button {
-        width: 112px;
-        height: 80px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-        border-radius: 7px 7px 7px 7px;
-        font-size: 1.5em;
-    }
-
-    #buttonbe {
-        background-color: #368de9;
-        color: #ffffff;
-    }
-
-    #buttontp {
-        background-color: #27a74d;
-        color: #ffffff;
-    }
-
-    #buttonsl {
-        background-color: #f0594e;
-        color: #ffffff;
-    }
-
-    label {
-        font-weight: bold;
-        width: 200px;
-    }
-
-    #form {
-        background-color: #dad9d9;
-        border-radius: 7px 7px 7px 7px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-        width: 458px;
-        padding: 5px 5px;
-        border-collapse: collapse;
-    }
-
-    #form th, #form td {
-        padding: 5px 15px;
-    }
-
-    #statistiche {
-        background-color: #dad9d9;
-        border-radius: 7px 7px 7px 7px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-        width: 458px;
-        padding: 5px 5px;
-        border-collapse: collapse;
-    }
-
-    #statistiche th, #statistiche td {
-        padding: 5px 15px;
-        text-align: center;
-    }
-
-    #tprate {
-        font-weight: bold;
-        color: #27a74d;
-    }
-    #slrate {
-        font-weight: bold;
-        color: #f0594e;
-    }
-    #account {
-        font-weight: bold;
-        color: black;
-    }
-
-    #table {
-        border-collapse: collapse;
-        margin: 15px 0;
-        font-size: 0.9em;
-        min-width: 400px;
-        border-radius: 7px 7px 7px 7px;
-        overflow: hidden;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    }
-
-    #table thead tr {
-        background-color: #009879;
-        color: #ffffff;
-        text-align: center;
-        font-weight: bold;
-    }
-
-    #table th, #table td {
-        padding: 12px 15px;
-    }
-
-    #table tbody tr {
-        border-bottom: 1px solid #dddddd;
-        background-color: #ffffff;
-    }
-
-    #table tbody tr:nth-of-type(even) {
-        background-color: #ffffff;
-    }
-
-    #table tbody td:last-of-type {
-	    font-weight: bold;
-    }
-
-    #table tbody tr.active-row {
-        font-weight: bold;
-        color: #ffffff;
-    }
-
-    #typetp {
-      font-weight: bold;
-    }
-
-</style>
 </head>
 <body>
   <h1></h1>
@@ -172,12 +46,12 @@
   </table>
 
 <br>
-
+<div id="divbutton">
 <button id="buttonbe" onclick="createRow('BE')">BE</button>
 <button id="buttontp" onclick="createRow('TP')">TP</button>
 <button id="buttonsl" onclick="createRow('SL')">SL</button>
 <button id="buttonclear" onclick="createRow('Clear')">Clear</button>
-
+</div>
 <br>
 
 <table id="table">
