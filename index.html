@@ -1,200 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet" type="text/css">
-<title>Backtest-2023</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Progetto open-source per tenere traccia dei trade durante i backtest. https://github.com/MrToldo/easybacktest.github.io">
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <title>Backtest-2023</title>
 </head>
 <body>
-  <h1></h1>
-<div id="container">
-<table id="form">
-    <tr>
-        <td><label for="initialCapital">Capitale</label></td>
-        <td><input type="number" id="initialCapital" step="0.01"></td>
-    </tr>
-    <tr>
-        <td><label for="xTrade">x Trade</label></td>
-        <td><input type="number" id="xTrade" step="0.01"></td>
-    </tr>
-    <tr>
-        <td><label for="rr">R:R:</label></td>
-        <td><input type="number" id="rr" step="0.01"></td>
-    </tr>
-    <tr>
-        <td><label for="pair">Pair:</label></td>
-        <td><input type="text" id="pair"></td>
-    </tr>
-</table>
-<br>
-<table id="statistiche">
-    <thead>
-      <tr>
-        <th>TP rate</th>
-        <th>SL rate</th>
-        <th>% Account</th>
-      </tr>
-    </thead>
-    <tbody id="statisticsTableBody">
-      <tr>
-        <td id="tprate">-</td>
-        <td id="slrate">-</td>
-        <td id="account">-</td>
-      </tr>
-    </tbody>
-  </table>
+  <div id="container">
+    <div id="form">
+      <table>
+        <tr>
+          <td><label for="initialCapital">AMOUNT</label></td>
+          <td><input type="number" id="initialCapital" step="0.01"></td>
+        </tr>
+        <tr>
+          <td><label for="xTrade">TRADE</label></td>
+          <td><input type="number" id="xTrade" step="0.01"></td>
+        </tr>
+        <tr>
+          <td><label for="rr">R:R</label></td>
+          <td><input type="number" id="rr" step="0.01"></td>
+        </tr>
+        <tr>
+          <td><label for="pair">PAIR</label></td>
+          <td><input type="text" id="pair"></td>
+        </tr>
+      </table>
+    </div>
+    <br>
+    <div id="statistiche">
+      <table>
+        <thead>
+          <tr>
+            <th>TP rate</th>
+            <th>SL rate</th>
+            <th>% Account</th>
+          </tr>
+        </thead>
+        <tbody id="statisticsTableBody">
+          <tr>
+            <td id="tprate">-</td>
+            <td id="slrate">-</td>
+            <td id="account">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div id="divbutton">
+    <button id="buttonbe" onclick="createRow('BE')">BE</button>
+    <button id="buttontp" onclick="createRow('TP')">TP</button>
+    <button id="buttonsl" onclick="createRow('SL')">SL</button>
+    <button id="buttonclear" onclick="createRow('Clear')">Clear</button>
+  </div>
+  <br>
+  <div id="table">
+    <table>
+      <thead>  
+        <tr>
+          <th>ID</th>
+          <th>TRADE</th>
+          <th>PAIR</th>
+          <th>R:R</th>
+          <th>R:R TOT</th>
+          <th>PROFIT</th>
+          <th>BILANCIO</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <script>
+    let rrTotal = 0;
+    let balance = 0;
+    let tpCount = 0;
+    let slCount = 0;
+    let tradeID = 1;
+    let firstrow = true;
 
-<br>
-<div id="divbutton">
-<button id="buttonbe" onclick="createRow('BE')">BE</button>
-<button id="buttontp" onclick="createRow('TP')">TP</button>
-<button id="buttonsl" onclick="createRow('SL')">SL</button>
-<button id="buttonclear" onclick="createRow('Clear')">Clear</button>
-</div>
-<br>
-
-<table id="table">
-  <thead>  
-    <tr>
-      <th>ID</th>
-      <th>Trade</th>
-      <th>Pair</th>
-      <th>R:R</th>
-      <th>R:R tot</th>
-      <th>Profit</th>
-      <th>Bilancio</th>
-    </tr>
-  </thead>
-  <tbody id="tableBody">
-  </tbody>
-</table>
-
-<br>
-
-<script>
-  let rrTotal = 0;
-  let balance = 0;
-  let tpCount = 0;
-  let slCount = 0;
-  let tradeID = 1;
-  let firstrow = true;
-
-  function createRow(tradeType) {
-    const tableBody = document.getElementById("tableBody");
-    const rrInput = parseFloat(document.getElementById("rr").value);
-    const pairInput = document.getElementById("pair").value;
-    const xTradeInput = parseFloat(document.getElementById("xTrade").value);
-    const initialCapitalInput = parseFloat(document.getElementById("initialCapital").value);
+    function createRow(tradeType) {
+      const tableBody = document.getElementById("tableBody");
+      const rrInput = parseFloat(document.getElementById("rr").value);
+      const pairInput = document.getElementById("pair").value;
+      const xTradeInput = parseFloat(document.getElementById("xTrade").value);
+      const initialCapitalInput = parseFloat(document.getElementById("initialCapital").value);
     
-    const newRow = document.createElement("tr");
-    const idCell = document.createElement("td");
-    idCell.textContent = tradeID;
-    newRow.appendChild(idCell);
+      const newRow = document.createElement("tr");
+      const idCell = document.createElement("td");
+      idCell.textContent = tradeID;
+      newRow.appendChild(idCell);
 
-    tradeID++;
+      tradeID++;
 
-    if (firstrow == true){
+      if (firstrow == true){
         balance = initialCapitalInput;
         firstrow = false;
-    }
+      }
 
-    if (tradeType === "TP") {
-      tpCount++;
-    } else if (tradeType === "SL") {
-      slCount++;
-    } 
+      if (tradeType === "TP") {
+        tpCount++;
+      } else if (tradeType === "SL") {
+        slCount++;
+      } 
 
-    const tradeCell = document.createElement("td");
-    tradeCell.textContent = tradeType;
+      const tradeCell = document.createElement("td");
+      tradeCell.textContent = tradeType;
 
-    if (tradeType === "TP") {
-      tradeCell.style.fontWeight = "bold";
-      tradeCell.style.color = "#009879";
-    } else if (tradeType === "SL"){
-      tradeCell.style.fontWeight = "bold";
-      tradeCell.style.color = "#f0594e"; 
-    } else {
-      tradeCell.style.fontWeight = "bold";
-      tradeCell.style.color = "black";
-    }
+      if (tradeType === "TP") {
+        tradeCell.style.fontWeight = "bold";
+        tradeCell.style.color = "#009879";
+      } else if (tradeType === "SL"){
+        tradeCell.style.fontWeight = "bold";
+        tradeCell.style.color = "#f0594e"; 
+      } else {
+        tradeCell.style.fontWeight = "bold";
+        tradeCell.style.color = "black";
+      }
 
-    newRow.appendChild(tradeCell);
+      newRow.appendChild(tradeCell);
 
+      const pairCell = document.createElement("td");
+      pairCell.textContent = pairInput;
+      newRow.appendChild(pairCell);
+
+      const rrCell = document.createElement("td");
+      rrCell.textContent = rrInput.toFixed(2);
+      newRow.appendChild(rrCell);
+
+      rrTotal += rrInput;
+      const rrTotalCell = document.createElement("td");
+      rrTotalCell.textContent = rrTotal.toFixed(2);
+      newRow.appendChild(rrTotalCell);
+
+      const profit = rrInput * xTradeInput;
+      const profitCell = document.createElement("td");
+      profitCell.textContent = profit.toFixed(2);
+      newRow.appendChild(profitCell);
+
+      balance += profit;
     
+      const balanceCell = document.createElement("td");
+      balanceCell.textContent = balance.toFixed(2);
 
-    const pairCell = document.createElement("td");
-    pairCell.textContent = pairInput;
-    newRow.appendChild(pairCell);
+      if (balance >= initialCapitalInput) {
+        balanceCell.style.fontWeight = "bold";
+        balanceCell.style.color = "#009879";
+      } else {
+        balanceCell.style.fontWeight = "bold";
+        balanceCell.style.color = "#f0594e";
+      }
 
-    const rrCell = document.createElement("td");
-    rrCell.textContent = rrInput.toFixed(2);
-    newRow.appendChild(rrCell);
-
-    rrTotal += rrInput;
-    const rrTotalCell = document.createElement("td");
-    rrTotalCell.textContent = rrTotal.toFixed(2);
-    newRow.appendChild(rrTotalCell);
-
-    const profit = rrInput * xTradeInput;
-    const profitCell = document.createElement("td");
-    profitCell.textContent = profit.toFixed(2);
-    newRow.appendChild(profitCell);
-
-    balance += profit;
+      newRow.appendChild(balanceCell);
     
-    const balanceCell = document.createElement("td");
-    balanceCell.textContent = balance.toFixed(2);
+      updateStatisticsTable();
 
-    if (balance >= initialCapitalInput) {
-      balanceCell.style.fontWeight = "bold";
-      balanceCell.style.color = "#009879";
-    } else {
-      balanceCell.style.fontWeight = "bold";
-      balanceCell.style.color = "#f0594e";
+      tableBody.appendChild(newRow);
     }
 
-    newRow.appendChild(balanceCell);
-    
-    updateStatisticsTable();
+    function updateStatisticsTable() {
+      const statisticsTableBody = document.getElementById("statisticsTableBody");
 
-    tableBody.appendChild(newRow);
-  }
+      const tpRateCell = document.createElement("td");
+      tpRateCell.textContent = ((tpCount / (tpCount + slCount)) * 100).toFixed(0) + "%";
 
-  function updateStatisticsTable() {
-    const statisticsTableBody = document.getElementById("statisticsTableBody");
+      const slRateCell = document.createElement("td");
+      slRateCell.textContent = ((slCount / (tpCount + slCount)) * 100).toFixed(0) + "%";
 
-    const tpRateCell = document.createElement("td");
-    tpRateCell.textContent = ((tpCount / (tpCount + slCount)) * 100).toFixed(0) + "%";
+      const accountChangePercentage = ((balance - parseFloat(document.getElementById("initialCapital").value)) / parseFloat(document.getElementById("initialCapital").value)) * 100;
+      const accountChangeCell = document.createElement("td");
+      accountChangeCell.textContent = accountChangePercentage.toFixed(1) + "%";
 
-    const slRateCell = document.createElement("td");
-    slRateCell.textContent = ((slCount / (tpCount + slCount)) * 100).toFixed(0) + "%";
+      if (accountChangePercentage >= 0) {
+        accountChangeCell.style.fontWeight = "bold";
+        accountChangeCell.style.color = "#009879";
+        accountChangeCell.textContent = "+" + accountChangeCell.textContent;
+      } else {
+        accountChangeCell.style.fontWeight = "bold";
+        accountChangeCell.style.color = "#f0594e"; 
+      }
 
-    const accountChangePercentage = ((balance - parseFloat(document.getElementById("initialCapital").value)) / parseFloat(document.getElementById("initialCapital").value)) * 100;
-    const accountChangeCell = document.createElement("td");
-    accountChangeCell.textContent = accountChangePercentage.toFixed(1) + "%";
+      while (statisticsTableBody.firstChild) {
+        statisticsTableBody.removeChild(statisticsTableBody.firstChild);
+      }
 
-    if (accountChangePercentage >= 0) {
-      accountChangeCell.style.fontWeight = "bold";  // Set text to bold
-      accountChangeCell.style.color = "#009879";      // Set text color to green
-      accountChangeCell.textContent = "+" + accountChangeCell.textContent; // Add "+" sign
-    } else {
-      accountChangeCell.style.fontWeight = "bold";  // Set text to bold
-      accountChangeCell.style.color = "#f0594e";        // Set text color to red
+      const newRow = document.createElement("tr");
+      newRow.appendChild(tpRateCell);
+      newRow.appendChild(slRateCell);
+      newRow.appendChild(accountChangeCell);
+
+      statisticsTableBody.appendChild(newRow);
     }
-
-    while (statisticsTableBody.firstChild) {
-      statisticsTableBody.removeChild(statisticsTableBody.firstChild);
-    }
-
-    const newRow = document.createElement("tr");
-    newRow.appendChild(tpRateCell);
-    newRow.appendChild(slRateCell);
-    newRow.appendChild(accountChangeCell);
-
-    statisticsTableBody.appendChild(newRow);
-  }
-</script>
+  </script>
 </div>
 </body>
 </html>
