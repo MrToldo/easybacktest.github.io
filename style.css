@@ -93,9 +93,9 @@
 
 /* TABLE */
 
-    #datatable {
+    #datatable table {
         border-collapse: collapse;
-        background: #3e2af5;
+        /*background: #3e2af5;*/
         font-size: 0.9em;
         width: 474px;
         border-radius: 7px 7px 7px 7px;
