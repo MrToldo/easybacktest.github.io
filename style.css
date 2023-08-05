@@ -1,11 +1,12 @@
 /* BODY */
     
-    *{
+*{
     font-family: calibri;
     }
 
     body {
-        background-color: #7bb4f0;
+        background-color: #575757;
+        
     }
 
     label {
@@ -13,21 +14,35 @@
         width: 200px;
     }
 
-    div {
+    #form{
         margin: 5px 0;
+    }
+
+    #divbutton{
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    #datatable{
+        margin: 5px 0;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
     }
 
 /* FORM */
 
     div#container {
         width: 474px;
-        background: #25FF00;
+        /*background: #25FF00;*/
         margin: 0 auto;
       }
 
     input {
-        width: 310px;
-        background-color: #fffdfd;
+        width: 270px;
+        background-color: #ffffff;
         border: none;
     }
 
@@ -36,28 +51,79 @@
         border-radius: 7px 7px 7px 7px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         width: 474px;
-        padding: 5px 5px;
+        padding: 0px 0px;
         border-collapse: collapse;
     }
 
     #form th, #form td {
-        padding: 5px 15px;
+        padding: 8px 13px;
     }
 
-/* STATISTIC */    
+    #form td:first-of-type {
+        text-align: right;
+    }
+
+
+    #iconprint {
+        background-color: rgba(26, 130, 250, 0.301);
+        border-radius: 0px 7px 7px 0px;
+        text-align: center;
+        width: 50px;
+        color: #696969;
+    }
+
+/* CHART_STAT */
+
+    #chart_stat {
+        width: 474px;
+        margin-bottom: 5px;
+        background-color: #dad9d9;
+        border-radius: 7px 7px 7px 7px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    #balanceChart{
+        padding-right: 30px;
+        padding-top: 20px;
+        background-color: #dad9d9;
+        border-radius: 7px 7px 0px 0px;
+    } 
 
     #statistiche table{
         background-color: #dad9d9;
         border-radius: 7px 7px 7px 7px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         width: 474px;
         padding: 5px 5px;
-        border-collapse: collapse;
     }
 
-    #statistiche th, #statistiche td {
+    #statistiche th {
         padding: 5px 15px;
         text-align: center;
+        padding-bottom: 12px;
+        font-size: 0.8em;
+    }
+
+    #statistiche td {
+        padding: 5px 15px;
+        text-align: center;
+        padding-bottom: 12px;
+    }
+
+    /* BOTTOM */
+
+    td#tprate {
+        padding-right: 90px;
+        padding-left: 70px;
+    }
+
+    td#slrate { 
+        padding-right: 70px;
+        padding-left: 70px;
+    }
+
+    td#account {
+        padding-right: 0px;
+        padding-left: 70px;
     }
 
 /* BUTTON */
@@ -65,37 +131,47 @@
     button {
         width: 115.7px;
         height: 80px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         border-radius: 7px 7px 7px 7px;
         font-size: 1.5em;
     }
 
     #buttonbe {
-        background-color: #368de9;
-        color: #ffffff;
+        background-color: #136ef8;
+        border-color: #136ef8;
+        border-width: 5px;
+        color: #dad9d9;
     }
 
     #buttontp {
-        background-color: #27a74d;
-        color: #ffffff;
+        background-color: #3abd61;
+        border-color: #3abd61;
+        border-width: 4px;
+        color: #dad9d9;
     }
 
     #buttonsl {
-        background-color: #f0594e;
-        color: #ffffff;
+        background-color: #d63838;
+        border-color: #d63838;
+        border-width: 4px;
+        color: #dad9d9;
     }
 
+    #buttonclear {
+        background-color: #dad9d9;
+        border-color: #dad9d9;
+        border-width: 4px;
+        color: #2e2e2e;
+    }
+    
     div#divbutton {
         margin: 0 auto;
         width: 474px;
-        /*background: #f517c5;*/
       } 
 
 /* TABLE */
 
     #datatable table {
         border-collapse: collapse;
-        /*background: #3e2af5;*/
         font-size: 0.9em;
         width: 474px;
         border-radius: 7px 7px 7px 7px;
@@ -105,7 +181,7 @@
 
     #datatable thead tr {
         background-color: #009879;
-        color: #ffffff;
+        color: #dad9d9;
         text-align: center;
         font-weight: bold;
     }
@@ -117,11 +193,11 @@
 
     #datatable tbody tr {
         border-bottom: 1px solid #dddddd;
-        background-color: #ffffff;
+        background-color: #dad9d9;
     }
 
     #datatable tbody tr:nth-of-type(even) {
-        background-color: #ffffff;
+        background-color: #dad9d9;
     }
 
     #datatable tbody td:last-of-type {
@@ -130,22 +206,19 @@
 
     #datatable tbody tr.active-row {
         font-weight: bold;
-        color: #ffffff;
+        color: #dad9d9;
     }
 
     #typetp {
       font-weight: bold;
     }
 
-    #tprate {
-        font-weight: bold;
-        color: #27a74d;
+/* LEGENDA */
+
+    #legend {
+        font-size: 0.5em; 
+        text-align: center;
+        color: #dad9d9;
+        padding: 10px 0;
     }
-    #slrate {
-        font-weight: bold;
-        color: #f0594e;
-    }
-    #account {
-        font-weight: bold;
-        color: black;
-    }
+

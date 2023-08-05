@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Progetto open-source per tenere traccia dei trade durante i backtest. https://github.com/MrToldo/easybacktest.github.io">
   <link href="style.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>Backtest-2023</title>
 </head>
 <body>
@@ -14,6 +15,7 @@
         <tr>
           <td><label for="initialCapital">AMOUNT</label></td>
           <td><input type="number" id="initialCapital" step="0.01"></td>
+          <td rowspan="4" id="iconprint"><i class="fa fa-print" style="font-size:36px"></i></td>
         </tr>
         <tr>
           <td><label for="xTrade">TRADE</label></td>
@@ -29,23 +31,28 @@
         </tr>
       </table>
     </div>
-    <div id="statistiche">
-      <table>
-        <thead>
-          <tr>
-            <th>TP rate</th>
-            <th>SL rate</th>
-            <th>% Account</th>
-          </tr>
-        </thead>
-        <tbody id="statisticsTableBody">
-          <tr>
-            <td id="tprate">-</td>
-            <td id="slrate">-</td>
-            <td id="account">-</td>
-          </tr>
-        </tbody>
-      </table>
+    <div id="chart_stat">
+      <div id="chart">
+        <canvas id="balanceChart" width="474" height="200"></canvas>
+      </div>
+      <div id="statistiche">
+        <table>
+          <thead></thead>
+          <tbody id="statisticsTableBody">
+            <tr>
+              <td id="tprate">-</td>
+              <td id="slrate">-</td>
+              <td id="account">-</td>
+            </tr>
+          </tbody>
+          </thead>
+            <tr>
+              <td>TP RATE</td>
+              <td>SL RATE</td>
+              <td>% ACCOUNT</td>
+            </tr>
+        </table>
+      </div>
     </div>
     <div id="divbutton">
       <button id="buttonbe" onclick="createRow('BE')">BE</button>
@@ -70,6 +77,18 @@
         </tbody>
       </table>
     </div>
+    <div id="legend">
+      <hr color ="#dad9d9">
+      <p> AMOUNT: si intende il capitale iniziale - Trade: si intende quanto rischiare ad ogni trade - R:R si intende quanto Rishio:Rendimento si è guadagnato o perso - Pair si intende il pair per ogni trade aperto</p>
+      <p>
+        <a href='https://www.free-counters.org/'>Counter Visitor</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=2c030ca7b239330518c1d8aae54103f3eb06b2a4'></script>
+        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1059519/t/1"></script>    
+      </p>
+      <p> Created by Giulio Bertoldi - Agosto 2023</p>
+      <p> Repository: https://github.com/MrToldo/easybacktest.github.io</p>
+      
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       let rrTotal = 0;
       let balance = 0;
@@ -77,6 +96,8 @@
       let slCount = 0;
       let tradeID = 1;
       let firstrow = true;
+      let balanceChart = null;
+      let initialCapitalInput = 0;
       function createRow(tradeType) {
         const tableBody = document.getElementById("tableBody");
         const rrInput = parseFloat(document.getElementById("rr").value);
@@ -96,7 +117,16 @@
           tpCount++;
         } else if (tradeType === "SL") {
           slCount++;
-        } 
+        } else if (tradeType === "BE") {
+          const rows = tableBody.getElementsByTagName("tr");
+          if (rows.length > 0) {
+            const lastRow = rows[rows.length - 1];
+            const lastBalanceCell = lastRow.querySelector("td:last-child");
+            balance = parseFloat(lastBalanceCell.textContent);
+          }
+        } else if (tradeType === "Clear"){
+          location.reload();
+        }
         const tradeCell = document.createElement("td");
         tradeCell.textContent = tradeType;
         if (tradeType === "TP") {
@@ -137,17 +167,29 @@
         newRow.appendChild(balanceCell);
         updateStatisticsTable();
         tableBody.appendChild(newRow);
+        updateChart();
       }
-
+      const printButton = document.getElementById("iconprint");
+      printButton.addEventListener("click", function() {
+        window.print();
+      });
       function updateStatisticsTable() {
         const statisticsTableBody = document.getElementById("statisticsTableBody");
         const tpRateCell = document.createElement("td");
         tpRateCell.textContent = ((tpCount / (tpCount + slCount)) * 100).toFixed(0) + "%";
+        tpRateCell.style.fontWeight = "bold";
+        tpRateCell.style.color = "#009879";
+        tpRateCell.style.fontSize = "1.8em";
         const slRateCell = document.createElement("td");
         slRateCell.textContent = ((slCount / (tpCount + slCount)) * 100).toFixed(0) + "%";
+        slRateCell.style.fontWeight = "bold";
+        slRateCell.style.color = "#f0594e";
+        slRateCell.style.fontSize = "1.8em";
         const accountChangePercentage = ((balance - parseFloat(document.getElementById("initialCapital").value)) / parseFloat(document.getElementById("initialCapital").value)) * 100;
         const accountChangeCell = document.createElement("td");
         accountChangeCell.textContent = accountChangePercentage.toFixed(1) + "%";
+        accountChangeCell.style.fontWeight = "bold";
+        accountChangeCell.style.fontSize = "1.8em";
         if (accountChangePercentage >= 0) {
           accountChangeCell.style.fontWeight = "bold";
           accountChangeCell.style.color = "#009879";
@@ -164,6 +206,121 @@
           newRow.appendChild(slRateCell);
           newRow.appendChild(accountChangeCell);
           statisticsTableBody.appendChild(newRow);
+      }
+      window.onload = function() {      
+        const balanceChartCanvas = document.getElementById("balanceChart");
+      }
+      const tableBody = document.getElementById("tableBody");
+      const idValues = Array.from(tableBody.querySelectorAll("tr td:first-child"), cell => parseFloat(cell.textContent));
+      const balanceValues = Array.from(tableBody.querySelectorAll("tr td:last-child"), cell => parseFloat(cell.textContent));
+      const balanceChartCanvas = document.getElementById("balanceChart");
+      if (balanceChart === null) {
+        balanceChart = new Chart(balanceChartCanvas, {
+          type: "line",
+          data: {
+            labels: idValues,
+            datasets: [{
+              label: "Bilancio",
+              data: balanceValues,
+              borderColor: "#550285",
+              backgroundColor: "rgba(0, 0, 255, 0.2)",
+              fill: true
+            }]
+          },
+          options: {
+            plugins:{
+              legend: {
+                display: false
+              }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                }
+              }
+            }
+          }      
+        }
+      )}
+      function updateChart() {
+        if (balanceChart !== null) {
+          balanceChart.destroy();
+        }
+        const balanceChartCanvas = document.getElementById("balanceChart");
+        const tableBody = document.getElementById("tableBody");
+        const rows = tableBody.getElementsByTagName("tr");
+        const idValues = [];
+        const balanceValues = [];
+        for (let i = 0; i < rows.length; i++) {
+          const cells = rows[i].getElementsByTagName("td");
+          if (cells.length >= 7){
+            const id = parseFloat(cells[0].textContent);
+            const balance = parseFloat(cells[6].textContent);
+            idValues.push(id);
+            balanceValues.push(balance);
+          }
+        }
+        console.log("idValues:", idValues);
+        console.log("balanceValues:", balanceValues);
+        balanceChart = new Chart(balanceChartCanvas, {
+          type: "line",
+          data: {
+            labels: idValues,
+            datasets: [{
+              label: "Bilancio",
+              data: balanceValues,
+              borderColor: "#550285",
+              backgroundColor: "rgba(0, 0, 255, 0.2)",
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                  }
+                },
+                y: {
+                  title: {
+                    display: true,
+                  }
+                },
+              },
+              plugins: {
+                legend: {
+                  display: false
+                },
+                annotation: {
+                  annotations: {
+                    initialCapitalLine: {
+                      type: "line",
+                      mode: "horizontal",
+                      scaleID: "y",
+                      value: initialCapitalInput,
+                      borderColor: "red",
+                      borderWidth: 1,
+                      label: {
+                        content: "Initial Capital",
+                        enabled: true,
+                        position: "left"
+                      }
+                    }
+                  } 
+                }
+              }
+          }
+        });
       }
     </script>
   </div>
