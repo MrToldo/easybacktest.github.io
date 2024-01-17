@@ -71,6 +71,19 @@
         width: 50px;
         color: #696969;
     }
+/* SECOND PAGE */
+
+    div#mediazione {
+        width: 474px;
+    }
+    button#mediazione {
+        color: #dad9d9;
+        font-style: bold;
+        width: 474px;
+        background-color: #9134dd;
+        border-radius: 7px 7px 7px 7px;
+        margin: 0 auto;
+    }
 
 /* CHART_STAT */
 
@@ -109,7 +122,7 @@
         padding-bottom: 12px;
     }
 
-    /* BOTTOM */
+/* BOTTOM */
 
     td#tprate {
         padding-right: 90px;
@@ -128,18 +141,15 @@
 
 /* BUTTON */
 
-    button {
-        width: 115.7px;
-        height: 80px;
-        border-radius: 7px 7px 7px 7px;
-        font-size: 1.5em;
-    }
-
     #buttonbe {
         background-color: #136ef8;
         border-color: #136ef8;
         border-width: 5px;
         color: #dad9d9;
+        width: 115.7px;
+        height: 80px;
+        border-radius: 7px 7px 7px 7px;
+        font-size: 1.5em;
     }
 
     #buttontp {
@@ -147,6 +157,10 @@
         border-color: #3abd61;
         border-width: 4px;
         color: #dad9d9;
+        width: 115.7px;
+        height: 80px;
+        border-radius: 7px 7px 7px 7px;
+        font-size: 1.5em;
     }
 
     #buttonsl {
@@ -154,6 +168,10 @@
         border-color: #d63838;
         border-width: 4px;
         color: #dad9d9;
+        width: 115.7px;
+        height: 80px;
+        border-radius: 7px 7px 7px 7px;
+        font-size: 1.5em;
     }
 
     #buttonclear {
@@ -161,6 +179,10 @@
         border-color: #dad9d9;
         border-width: 4px;
         color: #2e2e2e;
+        width: 115.7px;
+        height: 80px;
+        border-radius: 7px 7px 7px 7px;
+        font-size: 1.5em;
     }
     
     div#divbutton {
